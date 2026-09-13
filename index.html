@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talleres del Oeste</title>
+    <link rel="icon" type="image/png" href="img/favicon.png">
+    <style>
+        /*TIPO*/
+        @font-face {
+        font-family: 'funnel-medium';
+        src: url('fonts/funnel-medium.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+    @font-face {
+        font-family: 'designer';
+        src: url('fonts/designer.otf') format('opentype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+        /* --- PALETA DE COLORES Y FUENTES --- */
+        :root {
+            --blanco: #FAFAFA;
+            --negro: #121212;
+            --rojo: #E30613;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--blanco);
+            color: var(--negro);
+        }
+
+        /* --- ENCABEZADO --- */
+        header {
+            background-color: var(--negro);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--blanco);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .logo span {
+            color: var(--rojo);
+        }
+
+        nav {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        nav a {
+            color: var(--blanco);
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+        
+        nav a:hover, nav a.active {
+            color: var(--rojo);
+        }
+
+        .btn-turno {
+            background-color: var(--rojo);
+            color: var(--blanco) !important;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-turno:hover {
+            background-color: #b3050f;
+        }
+
+        .btn-turno svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        /* --- SECCIONES GENERALES --- */
+        section {
+            padding: 100px 5% 60px; 
+        }
+
+        h2 {
+            font-family: 'funnel-medium';
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: var(--negro);
+            border-left: 5px solid var(--rojo);
+            padding-left: 10px;
+        }
+
+        p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        /* --- SECCIÓN INICIO (HERO) --- */
+       #inicio {
+            background: linear-gradient(rgba(18, 18, 18, 0.6), rgba(18, 18, 18, 0.8)), 
+                        url('img/fondo-inicio.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 80px;
+        }
+
+        .hero-texto { max-width: 65%; }
+
+        .hero-texto h1 {
+            font-family: 'funnel-medium', sans-serif;
+            font-size: 56px;
+            color: var(--blanco);
+            line-height: 1.1;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+        }
+
+        .hero-texto h1 span { 
+            color: var(--rojo);
+            font-family: 'funnel-medium', sans-serif; 
+            font-size: 56px; 
+        }
+
+        .hero-botones {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primario, .btn-secundario {
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primario {
+            background-color: var(--rojo);
+            color: var(--blanco);
+            border: 2px solid var(--rojo);
+        }
+
+        .btn-primario:hover {
+            background-color: #b3050f;
+            border-color: #b3050f;
+            transform: translateY(-3px);
+        }
+
+        .btn-secundario {
+            background-color: transparent;
+            color: var(--blanco);
+            border: 2px solid var(--blanco);
+        }
+
+        .btn-secundario:hover {
+            background-color: var(--blanco);
+            color: var(--negro);
+            transform: translateY(-3px);
+        }
+
+        /* --- CARRUSEL DE SERVICIOS --- */
+        .carrusel-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .carrusel-btn {
+            background-color: var(--negro);
+            color: var(--blanco);
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            z-index: 10;
+            transition: background-color 0.3s ease, transform 0.2s, opacity 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+
+        .carrusel-btn:hover {
+            background-color: var(--rojo);
+            transform: scale(1.1);
+        }
+
+        .carrusel-btn.oculto {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .carrusel-btn.left { left: -15px; }
+        .carrusel-btn.right { right: -15px; }
+
+        .carrusel-wrapper {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            gap: 25px;
+            padding: 20px 10px; 
+            scroll-behavior: smooth;
+            -ms-overflow-style: none;
+            scrollbar-width: none; 
+        }
+
+        .carrusel-wrapper::-webkit-scrollbar { display: none; }
+
+        .tarjeta-servicio {
+            min-width: 280px;
+            background-color: #fff;
+            border-radius: 8px;
+            scroll-snap-align: start;
+            overflow: hidden;
+            border: 1px solid #E0E0E0; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08); 
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; 
+        }
+
+        .tarjeta-servicio:hover {
+            transform: translateY(-8px); 
+            box-shadow: 0 12px 20px rgba(0,0,0,0.15); 
+            border-color: var(--rojo); 
+        }
+
+        .tarjeta-servicio img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .tarjeta-servicio h3 { 
+            padding: 15px 15px 5px; 
+            font-size: 30px; 
+            font-family: 'designer'; 
+            color:#121212;
+        }
+        .tarjeta-servicio p { padding: 0 15px 15px; font-size: 14px; color: #555; }
+
+        /* --- SOBRE NOSOTROS --- */
+        .sobre-nosotros-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .sobre-nosotros-img img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        /* --- FORMULARIO DE TURNOS --- */
+        .formulario-contenedor {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border-top: 5px solid var(--rojo);
+        }
+
+        .formulario-contenedor label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            margin-top: 15px;
+        }
+
+        .formulario-contenedor input,
+        .formulario-contenedor textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: inherit;
+        }
+
+        .formulario-contenedor button {
+            margin-top: 20px;
+            width: 100%;
+            background-color: var(--rojo);
+            color: var(--blanco);
+            border: none;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .formulario-contenedor button:hover { background-color: #b3050f; }
+
+        /* --- MAPA Y FOOTER --- */
+        .seccion-mapa {
+            padding: 0;
+            width: 100%;
+            height: 400px;
+            display: block;
+        }
+
+        .seccion-mapa iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        footer {
+            background-color: var(--negro);
+            color: var(--blanco);
+            padding: 50px 5%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        footer h3 {
+            color: var(--rojo);
+            margin-bottom: 20px;
+            font-size: 22px;
+        }
+
+        footer p { margin-bottom: 10px; }
+        
+        footer a {
+            color: var(--blanco);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        footer a:hover { color: var(--rojo); }
+
+        .footer-logo {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .footer-logo span { color: var(--rojo); }
+
+        /* --- ADAPTACIÓN A CELULARES --- */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 15px;
+                position: relative;
+            }
+            #inicio {
+                min-height: auto;
+                padding: 60px 5%;
+            }
+            .hero-texto { max-width: 100%; }
+            .hero-texto h1 { font-size: 38px; }
+            .hero-botones {
+                flex-direction: column;
+                width: 100%;
+            }
+            nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .carrusel-btn { display: none; }
+            
+            /* Ajuste para Sobre Nosotros en móviles */
+            .sobre-nosotros-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ENCABEZADO -->
+    <header>
+        <a href="#inicio" class="logo">
+            <img src="img/logo.svg" alt="Logo Talleres del Oeste" style="height: 40px; width: auto;">
+        </a>
+        <nav>
+            <a href="#inicio" class="nav-link">Inicio</a>
+            <a href="#servicios" class="nav-link">Servicios</a>
+            <a href="#sobre-nosotros" class="nav-link">Sobre Nosotros</a>
+            <a href="#turno" class="nav-link">Presupuesto</a>
+            <a href="#footer" class="nav-link">Contacto</a>
+            <a href="https://wa.me/5491127319766" class="btn-turno" target="_blank">
+                <!-- Icono de WhatsApp en SVG -->
+                <svg viewBox="0 0 24 24">
+                    <path d="M12.031 0C5.394 0 0 5.394 0 12.031c0 2.12.551 4.195 1.597 6.015L.055 24l6.108-1.543a11.968 11.968 0 005.868 1.535h.005c6.634 0 12.029-5.395 12.029-12.032C24.065 5.394 18.669 0 12.031 0zm0 21.996h-.004a9.96 9.96 0 01-5.076-1.385l-.364-.216-3.771.953.97-3.676-.237-.378A9.957 9.957 0 012.008 12.03C2.008 6.498 6.502 2.004 12.031 2.004c5.53 0 10.026 4.494 10.026 10.026 0 5.531-4.496 10.026-10.026 10.026zm5.503-7.524c-.302-.152-1.789-.884-2.065-.986-.277-.101-.478-.152-.68.151-.201.303-.781.986-.957 1.188-.176.202-.352.227-.654.076-1.502-.751-2.613-1.636-3.606-3.344-.176-.303.091-.284.388-.876.075-.152.038-.284-.038-.436-.075-.152-.68-1.64-.932-2.247-.245-.591-.495-.512-.68-.521-.176-.009-.378-.011-.58-.011-.202 0-.528.076-.805.379-.277.303-1.057 1.036-1.057 2.527 0 1.491 1.082 2.933 1.233 3.136.151.202 2.138 3.262 5.176 4.571 1.942.836 2.65.928 3.528.777 1.02-.176 2.065-.844 2.355-1.66.29-.816.29-1.517.202-1.66-.088-.142-.328-.218-.63-.37z"/>
+                </svg>
+                Consultanos
+            </a>
+        </nav>
+    </header>
+
+    <!-- SECCIÓN INICIO (HERO) -->
+    <section id="inicio">
+        <div class="hero-texto">
+            <h1>Si querés resultados profesionales, <br><span>trabajá con profesionales</span></h1>
+            <div class="hero-botones">
+                <a href="#turno" class="btn-primario">Pedí tu presupuesto</a>
+                <a href="#footer" class="btn-secundario">Coordiná una inspección</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN SERVICIOS -->
+    <section id="servicios">
+        <h2>Nuestros servicios</h2>
+        <div class="carrusel-container">
+            <!-- La flecha arranca oculta -->
+            <button class="carrusel-btn left oculto" id="btn-left">&#8249;</button>
+            
+            <div class="carrusel-wrapper" id="carrusel-wrapper">
+                <div class="tarjeta-servicio">
+                    <img src="img/carroceria.webp" alt="CARROCERÍA">
+                    <h3>CARROCERÍA</h3>
+                    <p>Contamos con sistema de bancada de estiramiento, para reparaciones complejas. Tal nos permite lograr que el mismo recupere su estado original y reducir los tiempos de reparación, para brindar un servicio más eficaz, preciso y económico.</p>
+                </div>
+                <div class="tarjeta-servicio">
+                    <img src="img/pintura.jpg" alt="PINTURA">
+                    <h3>PINTURA</h3>
+                    <p>Nuestro taller cuenta con laboratorio propio donde analizamos y preparamos las pinturas nosotros mismos utilizando primeras marcas, para ofrecerte un resultado preciso, profesional y de calidad.</p>
+                </div>
+                <div class="tarjeta-servicio">
+                    <img src="img/blindados.jpg" alt="BLINDADOS">
+                    <h3>BLINDADOS</h3>
+                    <p>Protección máxima para tu tranquilidad al manejar. Instalamos cristales blindados y láminas de seguridad antivandálicas de alta resistencia, diseñadas para soportar impactos y prevenir intentos de robo o agresiones.</p>
+                </div>
+                <div class="tarjeta-servicio">
+                    <img src="img/ploteos.png" alt="PLOTEO VEHICULAR">
+                    <h3>PLOTEO VEHICULAR</h3>
+                    <p>Personalización y protección para tu vehículo con vinilos desde la más alta calidad, hasta los más económicos. Realizamos ploteos completos o parciales, diseños corporativos para flotas y colocación de film PPF para blindar la pintura original contra rayones y el desgaste diario. </p>
+                </div>
+                <div class="tarjeta-servicio">
+                    <img src="img/polarizados.jpg" alt="POLARIZADOS">
+                    <h3>POLARIZADOS</h3>
+                    <p>Mejora el confort, la privacidad y el estilo de tu auto. Aplicamos láminas de alta calidad que reducen el calor interior, bloquean los rayos UV y aportan mayor seguridad ante la rotura de cristales.</p>
+                </div>
+            </div>
+
+            <button class="carrusel-btn right" id="btn-right">&#8250;</button>
+        </div>
+    </section>
+
+    <!-- SECCIÓN SOBRE NOSOTROS -->
+    <section id="sobre-nosotros">
+        <div class="sobre-nosotros-grid">
+            <div class="sobre-nosotros-img">
+                <img src="img/frente.jpg" alt="Frente del Taller">
+            </div>
+            <div class="sobre-nosotros-texto">
+                <h2 style="border-left: 5px solid var(--rojo); padding-left: 10px; margin-bottom: 20px;">Sobre nosotros</h2>
+                <p>Detrás de <i>Talleres del Oeste</i> hay un equipo de <b>apasionados por los autos</b>. Nos avalan <b>más de 15 años</b> en el rubro, brindando soluciones integrales de chapa y pintura. Nuestro compromiso es devolverle a tu vehículo su aspecto y línea original, combinando mano de obra <b>experta</b> con tecnología de <b>presición</b> en colorimetría y herramientas de última generación. Contamos con cabina de pintura presurizada y eléctrica con tecnología solar, para un pintado <b>preciso</b> y un secado más <b>rápido</b>. Encontranos en <b>Peribebuy 2823, San Justo.</b> </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN FORMULARIO DE TURNOS -->
+    <section id="turno">
+        <div class="formulario-contenedor">
+            <h2 style="border-left: none; padding-left: 0; text-align: center;">Pedí tu presupuesto</h2>
+            <form action="https://formsubmit.co/info@talleresdeloeste.com" method="POST">
+                <input type="hidden" name="_captcha" value="false">
+                <label for="nombre">Nombre Completo:</label>
+                <input type="text" id="nombre" name="Nombre" required>
+                <label for="telefono">Teléfono:</label>
+                <input type="tel" id="telefono" name="Teléfono" required>
+                <label for="correo">Correo Electrónico:</label>
+                <input type="email" id="correo" name="Correo" required>
+                <label for="auto">Marca y Modelo del Auto:</label>
+                <input type="text" id="auto" name="Auto" required>
+                <label for="mensaje">¿Qué necesitás presupuestar?</label>
+                <textarea id="mensaje" name="Presupuesto" rows="4" required></textarea>
+                <button type="submit">Enviar Solicitud</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- MAPA -->
+    <section class="seccion-mapa">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3280.6047087539796!2d-58.55285312425597!3d-34.689924772923554!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcc9dfe985acef%3A0xa455ea0d1f5d2f76!2sTalleres%20del%20Oeste!5e0!3m2!1ses-419!2sar!4v1789156875710!5m2!1ses-419!2sar" width="800" height="600" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+    </section>
+
+    <!-- FOOTER Y CONTACTO -->
+    <footer id="footer">
+        <div>
+            <img src="img/logo.svg" alt="Logo Talleres del Oeste" style="height: 90px; width: auto;">
+            <p>Talleres del Oeste S.R.L.</p>
+            <p>Peribebuy 2823, San Justo. GBA</p>
+            <p>CUIT 30-71652448-1</p>
+        </div>
+        <div>
+            <h3>Contactanos</h3>
+            <p>📞 <a href="https://wa.me/5491127319766" target="_blank">1127319766</a></p>
+            <p>✉️ <a href="mailto:info@talleresdeloeste.com">info@talleresdeloeste.com</a></p>
+        </div>
+        <div>
+            <h3>Redes Sociales</h3>
+            <p>📸 <a href="https://instagram.com/talleresdeloeste" target="_blank">@talleresdeloeste</a></p>
+            <p>📘 <a href="#" target="_blank">Facebook</a></p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // --- 1. LÓGICA DEL CARRUSEL ---
+        const wrapper = document.getElementById('carrusel-wrapper');
+        const btnLeft = document.getElementById('btn-left');
+        const btnRight = document.getElementById('btn-right');
+
+        function actualizarBotones() {
+            // Le damos un margen de 20px en lugar de 5px. A veces el navegador no vuelve a 0 exacto.
+            if (wrapper.scrollLeft <= 20) {
+                btnLeft.classList.add('oculto');
+            } else {
+                btnLeft.classList.remove('oculto');
+            }
+            
+            if (wrapper.scrollLeft + wrapper.clientWidth >= wrapper.scrollWidth - 20) {
+                btnRight.classList.add('oculto');
+            } else {
+                btnRight.classList.remove('oculto');
+            }
+        }
+
+        // Forzamos la comprobación apenas carga la página para asegurar el estado inicial
+        window.addEventListener('DOMContentLoaded', actualizarBotones);
+
+        btnLeft.addEventListener('click', () => {
+            wrapper.scrollBy({ left: -320, behavior: 'smooth' });
+        });
+
+        btnRight.addEventListener('click', () => {
+            wrapper.scrollBy({ left: 320, behavior: 'smooth' });
+        });
+
+        wrapper.addEventListener('scroll', actualizarBotones);
+        window.addEventListener('resize', actualizarBotones);
+        
+        // --- 2. LÓGICA DEL MENÚ DINÁMICO (SCROLL SPY) ---
+        const secciones = document.querySelectorAll('section, footer');
+        const linksMenu = document.querySelectorAll('.nav-link');
+
+        window.addEventListener('scroll', () => {
+            let actual = '';
+            
+            secciones.forEach(seccion => {
+                const seccionTop = seccion.offsetTop;
+                // Si pasamos el inicio de la sección (restando el espacio del header)
+                if (pageYOffset >= (seccionTop - 120)) {
+                    actual = seccion.getAttribute('id');
+                }
+            });
+
+            linksMenu.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${actual}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
